@@ -39,9 +39,16 @@
 						</div>
 						<div class="form-group">
 							<label for="options">Options:</label>
-							<input type="text" class="form-control" id="options" v-model.lazy="question.options" multiple>
+							<input type="text" class="form-control" id="options" v-model.lazy="question.options">
 						</div>
 						<button class="btn btn-success" @click="submit">Add Question</button>
+					</div>
+
+					<div class="form-message" v-if="success != 0">
+						<p v-if="success == 1" class="form-success">Question successfully added</p>
+						<p v-if="success == -1" class="form-error">Error occured while adding</p>
+
+						<a href="/make-quiz/view-question" class="btn opacity-hover">View questions</a>
 					</div>
 				</div>
 			</div>
@@ -62,15 +69,18 @@
 					done: 0,
 					numTries: '',
 					optionType: ''
-				}
+				},
+				success: 0
 			};
 		},
 		methods: {
 			submit() {
 				this.$http.post('data.json', this.question)
 				.then(response => {
+					this.success = 1;
 					console.log(response);
 				}, error => {
+					this.success = -1;
 					console.log(error);
 				});
 			}
@@ -79,6 +89,27 @@
 </script>
 
 <style lang="scss">
+	.form-message {
+		width: 40%;
+		margin: 25px auto;
+
+		.form-success, .form-error {
+			padding: 10px;
+			color: #fff;
+			font-size: 18px;
+			font-weight: bold;
+		}
+
+		.form-success {
+			background-color: #36b712;
+		}
+
+		.form-error {
+			background-color: #ac1a2f;
+		}
+
+	}
+
 	.form {
 		width: 40%;
 		margin: 0 auto;
@@ -98,6 +129,13 @@
 				display: block;
 				padding: 8px 15px;
 				border-radius: 15px;
+			}
+
+			select {
+				cursor: pointer;
+				border-width: 2px;
+				border-style: inset;
+				border-color: -internal-light-dark(rgb(118, 118, 118), rgb(195, 195, 195));
 			}
 
 			.radio-group {

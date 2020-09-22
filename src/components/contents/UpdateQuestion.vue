@@ -7,7 +7,7 @@
 				</div>
 
 				<div class="section-body">
-					<div class="form">
+					<div class="form" v-if="deleted != 1">
 						<div class="form-group">
 							<label for="title">Title:</label>
 							<input type="text" class="form-control" id="title" value="question.title" v-model.lazy="question.title">
@@ -38,6 +38,12 @@
 							<input type="number" class="form-control" id="locked" min="0" max="1" value="question.locked" v-model.lazy="question.locked">
 						</div>
 						<div class="form-group">
+							<input type="hidden" class="form-control" id="show" value="0">
+						</div>
+						<div class="form-group">
+							<input type="hidden" class="form-control" id="done" value="0">
+						</div>
+						<div class="form-group">
 							<label for="options">Options:</label>
 							<input type="text" class="form-control" id="options" value="question.options" v-model.lazy="question.options" multiple>
 						</div>
@@ -45,6 +51,15 @@
 							<button class="btn opacity-hover" @click="updateData">Update Question</button>
 							<button class="btn opacity-hover" @click="deleteData">Delete Question</button>
 						</div>
+					</div>
+					
+					<div class="form-message" v-if="update != 0 || deleted != 0">
+						<p v-if="update == 1" class="form-success">Question successfully updated</p>
+						<p v-if="update == -1" class="form-error">Error occured while updating</p>
+						<p v-if="deleted == 1" class="form-success">Question successfully deleted</p>
+						<p v-if="deleted == -1" class="form-error">Error occured while deleting</p>
+
+						<a href="/make-quiz/view-question" class="btn opacity-hover">View questions</a>
 					</div>
 				</div>
 			</div>
@@ -57,7 +72,9 @@
 		data() {
 			return {
 				id: this.$route.params.id,
-				question: []
+				question: [],
+				update: 0,
+				deleted: 0
 			};
 		},
         methods: {
@@ -65,14 +82,20 @@
 				this.$http.put('data/'+ this.id +'.json', this.question)
 				.then(response => {
 					console.log(response);
+					this.update = 1;
 				}, error => {
 					console.log(error);
+					this.update = -1;
 				});
 			},
 			deleteData() {				
 				this.$http.delete('data/'+ this.id +'.json')
 				.then(response => {
+					this.deleted = 1;
 					return response.json();
+				}, error => {
+					console.log(error);
+					this.deleted = -1;
 				});
 
 			},

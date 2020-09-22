@@ -45,6 +45,10 @@ export default {
 </script>
 
 <style lang="scss">
+    * {
+        box-sizing:border-box;
+    }
+
     #app {
       font-family: Avenir, Helvetica, Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
@@ -95,21 +99,32 @@ export default {
     .btn {
         display: inline-block;
         padding: 10px 20px;
-        width: 150px;
+        width: 170px;
         border-radius: 20px;
         border: 1px solid #000;
         transition: ease-in-out .2s;
         font-weight: bold;
+        font-size: 16px;
         cursor: pointer;
+        color: #002C76;
+    }
+
+    .btn:hover {
+        opacity: 0.5;
     }
 
     .opacity-hover:hover {
         opacity: 0.5;
     }
 
+    .opacity-hover {
+        transition: ease-in-out .2s;
+    }
+
     a {
         transition: ease-in-out .2s;
         text-decoration: none;
+        color: #002C76;
     }
     
     a:hover {
@@ -117,18 +132,22 @@ export default {
     }
 
     section {
-        padding: 60px 0;
+        margin: 80px 0;
 
         .section-title {
-
             h2 {
                 margin: 0;
+                font-size: 30px;
             }
         }
 
         .section-body {
-            margin-top: 40px;
+            margin-top: 60px;
         }
+    }
+
+    section + section {
+        margin: 120px 0;
     }
 
 </style>                                                    
