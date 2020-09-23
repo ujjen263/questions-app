@@ -28,19 +28,47 @@
               </div>
               <div>
                 <label for="whyRight">If Answers Right</label>
-                <textarea id="whyRight" class="rightwrong-area" v-model.lazy="question.whyRight" cols="30" rows="7"></textarea>
+                <textarea
+                  id="whyRight"
+                  class="rightwrong-area"
+                  v-model.lazy="question.whyRight"
+                  cols="30"
+                  rows="7"
+                ></textarea>
               </div>
               <div>
                 <label for="whyWrong">If Answers Wrong</label>
-                <textarea id="whyWrong" class="rightwrong-area" v-model.lazy="question.whyWrong" cols="30" rows="7"></textarea>
+                <textarea
+                  id="whyWrong"
+                  class="rightwrong-area"
+                  v-model.lazy="question.whyWrong"
+                  cols="30"
+                  rows="7"
+                ></textarea>
               </div>
               <div class="full-width">
                 <label for="question">Question</label>
-                <textarea class="question-area" id="question" v-model.lazy="question.text" cols="30" rows="7"></textarea>
+                <textarea
+                  class="question-area"
+                  id="question"
+                  v-model.lazy="question.text"
+                  cols="30"
+                  rows="7"
+                ></textarea>
+              </div>
+                            <div class="full-width">
+                <vue-tags-input
+                  v-model="tag"
+                  :tags="tags"
+                  @tags-changed="newTags => tags = newTags"
+                />
               </div>
               <template v-for="(data,index) in question.options">
                 <div :key="index">
-                  <label :for="data">Answer {{index}}</label>
+                  <label :for="data">
+                    <input style="display: inline-block; width: auto" type="checkbox" />
+                    Answer {{index}}
+                  </label>
                   <input
                     type="text"
                     id="data"
@@ -73,6 +101,7 @@
               <div style="justify-self: center;" class="full-width">
                 <button class="btn-fsblue" @click.prevent="addAnswer">addAnswer</button>
               </div>
+
               <div class="full-width">
                 <button @click.prevent="submit">Send</button>
               </div>
@@ -85,9 +114,16 @@
 </template>
 
 <script>
+import VueTagsInput from "@johmun/vue-tags-input";
+
 export default {
+  components: {
+    VueTagsInput,
+  },
   data() {
     return {
+      tag: "",
+      tags: [],
       question: {
         title: "",
         skip: "",
@@ -103,10 +139,10 @@ export default {
   methods: {
     addAnswer() {
       this.question.options.push("DefaultText");
-	},
-	removeAnswer(index) {
-		this.question.options.splice(index,index);
-	},
+    },
+    removeAnswer(index) {
+      this.question.options.splice(index, index);
+    },
     submit() {
       this.$http.post("data.json", this.question).then(
         (response) => {
@@ -300,4 +336,8 @@ select:focus {
   outline: 0;
   border: 1px solid #aaa;
 }
+#contact label {
+  text-align: left;
+}
+
 </style>
