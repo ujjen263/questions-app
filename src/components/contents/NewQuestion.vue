@@ -350,7 +350,6 @@ button {
   font-size: 15px;
 }
 button:hover {
-  background: #012869;
   -webkit-transition: background 0.3s ease-in-out;
   -moz-transition: background 0.3s ease-in-out;
   transition: background-color 0.3s ease-in-out;
@@ -359,7 +358,13 @@ button:hover {
 button:active {
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
 }
+.btn-fsblue:hover{
+    background: #012869;
+    -webkit-transition: background 0.3s ease-in-out;
+  -moz-transition: background 0.3s ease-in-out;
+  transition: background-color 0.3s ease-in-out;
 
+}
 input:focus,
 textarea:focus,
 select:focus {
