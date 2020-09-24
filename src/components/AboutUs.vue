@@ -50,7 +50,7 @@
 							<div class="about-member">
 								<p>Ujjen Baniya</p>
 								<p>Project Member</p>
-								<a href="mailto:ujjen263@mail.fresnostate.edu">ujjen263@mail.fresnostate.edu</a>
+								<a href="mailto:ujjen263@mail.fresnostate.edu" class="email">ujjen263@mail.fresnostate.edu</a>
 							</div>
 						</div>
 						<div class="member">
@@ -58,7 +58,7 @@
 							<div class="about-member">
 								<p>Dr.Huber Cecotti</p>
 								<p>Project Manager</p>
-								<a href="mailto:hcecotti@csufresno.edu">hcecotti@csufresno.edu</a>
+								<a href="mailto:hcecotti@csufresno.edu" class="email">hcecotti@csufresno.edu</a>
 							</div>
 						</div>
 						<div class="member">
@@ -66,7 +66,7 @@
 							<div class="about-member">
 								<p>Christian Vaughan</p>
 								<p>Project Member</p>
-								<a href="mailto:christianvaughan@mail.fresnotate.edu">christianvaughan@mail.fresnotate.edu</a>
+								<a href="mailto:christianvaughan@mail.fresnotate.edu" class="email">christianvaughan@mail.fresnotate.edu</a>
 							</div>
 						</div>
 					</div>
@@ -108,8 +108,12 @@
 		align-items: flex-start;
 
 		.member {
-			padding: 0 40px;
+			padding: 0 20px;
 			width: 33.33%;
+
+			.email {
+				font-size: 14px;
+			}
 
 			img {
 				width: 200px;

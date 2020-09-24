@@ -10,25 +10,29 @@
 					<div class="questions-list">
 						<table>
 							<tr>
-								<th>SNO.</th>
 								<th>Title</th>
+								<th>Option Type</th>
 							</tr>
-							<tr v-for="(q, index) in questions[0]" :key="index" class="question-content">
-								<td>1</td>
+							<tr v-for="(q, index) in questions" :key="index" class="question-content">
 								<td><a :href="'/make-quiz/update-question/'+ index">{{q.title}}</a></td>
+								<td>{{capitalize(q.optionType)}}</td>
 							</tr>
 						</table>
 					</div>
-					<div class="pagination">
-						<a href="#">&laquo;</a>
-						<a href="#">1</a>
-						<a href="#" class="active">2</a>
-						<a href="#">3</a>
-						<a href="#">4</a>
-						<a href="#">5</a>
-						<a href="#">6</a>
-						<a href="#">&raquo;</a>
-					</div>
+
+					<nav aria-label="Page navigation">
+						<ul class="pagination">
+							<li class="page-item">
+								<a type="button" v-if="page != 1" @click="page--"> Previous </a>
+							</li>
+							<li class="page-item">
+								<a type="button" v-for="(pageNumber,index) in pages" :key="index" @click="page = pageNumber" :class="(page == pageNumber) ? activeClass : ''"> {{pageNumber}} </a>
+							</li>
+							<li class="page-item">
+								<a type="button" @click="page++" v-if="page < pages.length"> Next </a>
+							</li>
+						</ul>
+					</nav>
 				</div>
 			</div>
 		</section>
@@ -41,14 +45,17 @@
 	export default {
 		data() {
 			return {
-				posts: [],
+				posts: [''],
 				page: 1,
 				perPage: 5,
-				pages: []
+				pages: [],
+				activeClass: 'active'
 			}
 		},
 		computed: {
 			questions() {
+				this.getPosts();
+				this.setPages();
 				return this.paginate(this.posts);
 			}
 		},
@@ -56,13 +63,13 @@
 			...mapActions({
 				fetchData: 'loadData'
 			}),
-			getPosts() {   
-				this.posts = this.$store.getters.questions;
+			getPosts() {
+				this.posts = this.$store.getters.questions[0];
 			},
 			setPages() {
-				var x;
+				this.pages = [];
 				var count = 0;
-				for (x in this.posts[0]) {
+				for (var x in this.posts) {
 					count += 1;
 				}
 				console.log(x);
@@ -72,32 +79,40 @@
 					this.pages.push(index);
 				}
 			},
-			paginate (posts) {
+			paginate(posts) {
 				let page = this.page;
 				let perPage = this.perPage;
 				let from = (page * perPage) - perPage;
-				let to = (page * perPage);
-				return  posts.slice(from, to);
-			}
-		},
-		watch: {
-			posts () {
-				this.setPages();
+				let to = (page * perPage)
+				if ( posts != undefined ) {
+					var sliced = [];
+					var i= 0;
+					var j = 0;
+					for (var x in posts) {
+						if((i >= from) && (i < to)) {
+							sliced[j] = posts[x];
+							j++;
+						}
+						i++;
+					}
+					return sliced;
+				} else {
+					return posts;
+				}	
+			},
+			capitalize(string) {
+				return string.charAt(0).toUpperCase() + string.slice(1);
 			}
 		},
 		created() {
 			this.fetchData();
 			this.$store.dispatch('initQuestions');
-			this.getPosts();
-		},
-		updated() {
-			this.posts = this.$store.getters.questions;
-			this.setPages();
 		}
 	}
 </script>
 
 <style scoped lang="scss">
+
 	.section-body {
 		.questions-list {
 			width: 40%;
@@ -109,7 +124,7 @@
 			}
 
 			th, td {
-				padding: 8px;
+				padding: 15px;
 				text-align: left;
 				border-bottom: 1px solid #ddd;
 			}
@@ -121,6 +136,10 @@
 	.pagination {
 		display: inline-block;
 		margin-top: 40px;
+
+		li {
+			display: inline-block;
+		}
 	}
 
 	.pagination a {
@@ -131,6 +150,7 @@
 		transition: background-color .3s;
 		border: 1px solid #ddd;
 		margin: 0;
+		cursor: pointer;
 	}
 
 	.pagination a.active {
