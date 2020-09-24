@@ -9,7 +9,7 @@
 .inner-banner {
 	height: 250px;
 	position: relative;
-	margin-top: 75px;
+	margin-top: 70px;
 
 	.banner-img {
 		position: absolute;
