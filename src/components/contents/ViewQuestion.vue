@@ -130,6 +130,13 @@
 				padding: 15px;
 				text-align: left;
 				border-bottom: 1px solid #ddd;
+
+				a {
+					&:hover {
+						opacity: 1;
+						color: #ac1a2f;
+					}
+				}
 			}
 
 			tr:hover {background-color:#f5f5f5;}
@@ -142,19 +149,25 @@
 
 		li {
 			display: inline-block;
+
+			a {
+				color: black;
+				float: left;
+				padding: 8px 16px;
+				text-decoration: none;
+				transition: background-color .3s;
+				border: 1px solid #ddd;
+				margin: 0;
+				cursor: pointer;
+
+				&:hover {
+					opacity: 1;
+					color: #ac1a2f;
+				}
+			}
 		}
 	}
 
-	.pagination a {
-		color: black;
-		float: left;
-		padding: 8px 16px;
-		text-decoration: none;
-		transition: background-color .3s;
-		border: 1px solid #ddd;
-		margin: 0;
-		cursor: pointer;
-	}
 
 	.pagination a.active {
 		background-color: #002C76;
