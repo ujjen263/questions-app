@@ -98,8 +98,8 @@ export default {
 
     .btn {
         display: inline-block;
-        padding: 10px 20px;
-        width: 170px;
+        //padding: 10px 20px;
+        width: 150px;
         border-radius: 20px;
         border: 1px solid #000;
         transition: ease-in-out .2s;
