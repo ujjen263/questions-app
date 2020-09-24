@@ -14,7 +14,7 @@
 								<th>Option Type</th>
 							</tr>
 							<tr v-for="(q, index) in questions" :key="index" class="question-content">
-								<td><a :href="'/make-quiz/update-question/'+ index">{{q.title}}</a></td>
+								<td><a :href="'/make-quiz/update-question/'+ q.id">{{q.title}}</a></td>
 								<td>{{capitalize(q.optionType)}}</td>
 							</tr>
 						</table>
@@ -56,6 +56,7 @@
 			questions() {
 				this.getPosts();
 				this.setPages();
+				console.log(this.paginate(this.posts));
 				return this.paginate(this.posts);
 			}
 		},
@@ -91,10 +92,12 @@
 					for (var x in posts) {
 						if((i >= from) && (i < to)) {
 							sliced[j] = posts[x];
+							sliced[j]['id'] = x;
 							j++;
 						}
 						i++;
 					}
+					console.log(sliced);
 					return sliced;
 				} else {
 					return posts;
