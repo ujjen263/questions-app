@@ -123,27 +123,76 @@
                 <button class="btn-fsblue" @click.prevent="deleteData">
                   Delete Question
                 </button>
+                <button class="btn-fsblue" @click.prevent="previewData" v-if="preview == 0">
+                  Preview Question
+                </button>
+                <button class="btn-fsblue" @click.prevent="hidePreviewData" v-if="preview == 1">
+                  Hide Preview Question
+                </button>
               </div>
 
           </form>
-              <div class="form-message full-width" v-if="update != 0 || deleted != 0">
-                <p v-if="update == 1" class="form-success">
-                  Question successfully updated
-                </p>
-                <p v-if="update == -1" class="form-error">
-                  Error occured while updating
-                </p>
-                <p v-if="deleted == 1" class="form-success">
-                  Question successfully deleted
-                </p>
-                <p v-if="deleted == -1" class="form-error">
-                  Error occured while deleting
-                </p>
+          <div class="form-message full-width" v-if="update != 0 || deleted != 0">
+            <p v-if="update == 1" class="form-success">
+              Question successfully updated
+            </p>
+            <p v-if="update == -1" class="form-error">
+              Error occured while updating
+            </p>
+            <p v-if="deleted == 1" class="form-success">
+              Question successfully deleted
+            </p>
+            <p v-if="deleted == -1" class="form-error">
+              Error occured while deleting
+            </p>
 
-                <a href="/make-quiz/view-question" class="btn"
-                  >View questions</a
-                >
+            <a href="/make-quiz/view-question" class="btn"
+              >View questions</a
+            >
+          </div>
+
+          <hr v-if="preview == 1">
+
+          <div class="question-preview-container" v-if="preview == 1">
+            <div>
+              <div class="question-content">
+                <div>
+                  <h3>{{question.title}}</h3>
+                  <p v-html="question.text"></p>
+
+                  <div v-if="question.optionType == 'checkbox'">
+                    <p v-for="(opt, index) in question.options" :key="index">
+                      <label for="opt">
+                        <input type="checkbox" name="opt" value="opt">
+                        {{opt}}
+                      </label>
+                    </p>
+                  </div>
+
+                  <div v-if="question.optionType == 'radio'">
+                    <p v-for="(opt, index) in question.options" :key="index">
+                      <label for="opt">
+                        <input type="radio" name="choice" value="opt">
+                        {{opt}}
+                      </label>
+                    </p>
+                  </div>
+
+                  <div v-if="question.optionType == 'cloze'">
+                    <p v-for="(opt, index) in question.options" :key="index">
+                      {{opt}}
+                    </p>
+                  </div>
+
+                  <div class="two-col-btn">
+                    <button class="btn">Ok</button>
+                    <button class="btn">Skip</button>
+                  </div>
+                </div>
               </div>
+            </div>
+
+          </div>
         </div>
         </div>
       </div>
@@ -159,6 +208,7 @@ export default {
       question: [],
       update: 0,
       deleted: 0,
+      preview: 0
     };
   },
   methods: {
@@ -186,6 +236,12 @@ export default {
         }
       );
     },
+    previewData() {
+      this.preview = 1;
+    },
+    hidePreviewData() {
+      this.preview = 0;
+    }
   },
   created() {
     this.$http
@@ -203,6 +259,16 @@ export default {
 
 
 <style lang="scss" scoped>
+  hr {
+    margin: 50px 0;
+  }
+
+  .question-preview-container {
+    .question-content {
+      width: 100%;
+    }
+  }
+
   form {
     button {
         cursor: pointer;

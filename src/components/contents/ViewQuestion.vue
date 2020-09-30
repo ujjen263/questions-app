@@ -56,7 +56,7 @@
 			questions() {
 				this.getPosts();
 				this.setPages();
-				console.log(this.paginate(this.posts));
+				//console.log(this.paginate(this.posts));
 				return this.paginate(this.posts);
 			}
 		},

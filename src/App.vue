@@ -95,7 +95,7 @@ export default {
         margin: 0 auto;
         text-align: center;
     }
-
+    
     .btn {
         display: inline-block;
         //padding: 10px 20px;

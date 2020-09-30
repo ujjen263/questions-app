@@ -210,6 +210,10 @@ export default {
       border-radius: 15px;
     }
 
+    input[type=checkbox] {
+      width: auto;
+    }
+ 
     .radio-group {
       input {
         width: auto;
@@ -339,32 +343,7 @@ select:hover {
   resize: vertical;
 }
 
-button {
-  cursor: pointer;
-  width: 100%;
-  border: none;
-  background: #002c76;
-  color: #fff;
-  margin: 0 0 5px;
-  padding: 10px;
-  font-size: 15px;
-}
-button:hover {
-  -webkit-transition: background 0.3s ease-in-out;
-  -moz-transition: background 0.3s ease-in-out;
-  transition: background-color 0.3s ease-in-out;
-}
 
-button:active {
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
-}
-.btn-fsblue:hover{
-    background: #012869;
-    -webkit-transition: background 0.3s ease-in-out;
-  -moz-transition: background 0.3s ease-in-out;
-  transition: background-color 0.3s ease-in-out;
-
-}
 input:focus,
 textarea:focus,
 select:focus {

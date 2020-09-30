@@ -67,7 +67,7 @@
 	}
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 	.question-content {
 		width: 40%;
 		margin: 0 auto;
@@ -75,5 +75,9 @@
 		.two-col-btn {
 			padding: 30px 0;
 		}
+	}
+
+	input[type=checkbox] {
+		width: auto;
 	}
 </style>
