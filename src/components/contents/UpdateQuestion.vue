@@ -158,13 +158,13 @@
               <div class="question-content">
                 <div>
                   <h3>{{question.title}}</h3>
-                  <p v-html="question.text"></p>
+                  <vue-mathjax :formula="question.text"></vue-mathjax> <!-- vue-mathjax + :formula="variable" to display the mathjax.  -->
 
                   <div v-if="question.optionType == 'checkbox'">
                     <p v-for="(opt, index) in question.options" :key="index">
                       <label for="opt">
                         <input type="checkbox" name="opt" value="opt">
-                        {{opt}}
+
                       </label>
                     </p>
                   </div>
@@ -173,15 +173,17 @@
                     <p v-for="(opt, index) in question.options" :key="index">
                       <label for="opt">
                         <input type="radio" name="choice" value="opt">
-                        {{opt}}
+                         <vue-mathjax :formula="opt"></vue-mathjax>
+                       <!-- {{opt}} -->
                       </label>
                     </p>
                   </div>
 
                   <div v-if="question.optionType == 'cloze'">
                     <p v-for="(opt, index) in question.options" :key="index">
-                      {{opt}}
-                    </p>
+                         <vue-mathjax :formula="opt"></vue-mathjax>
+                       <!-- {{opt}} -->                    
+                       </p>
                   </div>
 
                   <div class="two-col-btn">

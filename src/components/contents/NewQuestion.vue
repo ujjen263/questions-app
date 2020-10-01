@@ -120,7 +120,7 @@
 </template>
 
 <script>
-import VueTagsInput from "@johmun/vue-tags-input";
+import VueTagsInput from "@johmun/vue-tags-input"; //use http://www.vue-tags-input.com/ for easy tagging of questions.
 
 export default {
   components: {
