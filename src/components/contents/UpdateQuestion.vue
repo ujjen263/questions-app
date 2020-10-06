@@ -203,14 +203,21 @@
 </template>
 
 <script>
+import VueTagsInput from "@johmun/vue-tags-input";
+
 export default {
+  components: {
+    VueTagsInput,
+  },
   data() {
     return {
       id: this.$route.params.id,
       question: [],
       update: 0,
       deleted: 0,
-      preview: 0
+      preview: 0.,
+      tag: "",
+      tags: [],
     };
   },
   methods: {
