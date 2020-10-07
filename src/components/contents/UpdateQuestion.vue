@@ -223,6 +223,12 @@ export default {
     };
   },
   methods: {
+        addAnswer() {
+      this.question.options.push("DefaultText");
+    },
+    removeAnswer(index) {
+      this.question.options.splice(index, index);
+    },
     updateData() {
       this.$http.put("data/" + this.id + ".json", this.question).then(
         (response) => {
