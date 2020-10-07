@@ -86,7 +86,7 @@
                     type="text"
                     id="data"
                     class="form-control"
-                    v-model="question.options[index]"
+                    v-model.lazy="question.options[index]"
                   />
                 </div>
                 <div :key="index">
@@ -237,7 +237,6 @@ export default {
       */
       this.question.rightAnswer.forEach((element,index) => {
         if (element) {
-          console.log("I want to rock");
           this.question.options[index] = "*" + this.question.options[index]
         }
         
@@ -251,17 +250,20 @@ export default {
       this.question.options.forEach((element,index) => {
         if (element.charAt(0) == '*' && this.question.rightAnswer[index]) {
           // Remove * if it is in front and question is a correct answer
-          element = element.substring(1);
+          this.question.options[index] = element.substring(1);
         }
         
       });
     },
     updateData() {
-      this.addAsterisk();
+      //? Should we redirect to the questions list once they update? or do we want to keep them here?
+      //? If we want to keep them here then we need to run remAsterisk again on sucessful update.
+      this.addAsterisk(); // * add astrisk before posting the data to server for SCALE
       this.$http.put("data/" + this.id + ".json", this.question).then(
         (response) => {
           console.log(response);
           this.update = 1;
+          this.remAsterisk();//* Should remove the asterisk again after adding it to post, so user doesnt know it got added back. 
         },
         (error) => {
           console.log(error);
@@ -296,7 +298,7 @@ export default {
       })
       .then((data) => {
         this.question = data;
-        this.remAsterisk();
+        this.remAsterisk(); //! Remove astrisk when data is read in. 
         console.log(data);
       });
   },
