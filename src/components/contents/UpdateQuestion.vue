@@ -68,8 +68,8 @@
               <div class="full-width">
                 <vue-tags-input
                   v-model="tag"
-                  :tags="tags"
-                  @tags-changed="(newTags) => (tags = newTags)"
+                  :tags="question.tags"
+                  @tags-changed="(newTags) => (question.tags = newTags)"
                 />
               </div>
               <template v-for="(data, index) in question.options">
@@ -78,6 +78,7 @@
                     <input
                       style="display: inline-block; width: auto"
                       type="checkbox"
+                      v-model="question.rightAnswer[index]"
                     />
                     Answer {{ index }}
                   </label>
@@ -219,7 +220,6 @@ export default {
       deleted: 0,
       preview: 0.,
       tag: "",
-      tags: [],
     };
   },
   methods: {
@@ -229,7 +229,35 @@ export default {
     removeAnswer(index) {
       this.question.options.splice(index, index);
     },
+    addAsterisk() {
+      /*
+      * Take correct answers and add an Asterisk infront of them 
+      * Needed to match SCALE schema.
+      ? Should we be doing this differently to be more efficient? 
+      */
+      this.question.rightAnswer.forEach((element,index) => {
+        if (element) {
+          console.log("I want to rock");
+          this.question.options[index] = "*" + this.question.options[index]
+        }
+        
+      });
+    },
+    remAsterisk() {
+      /*
+      * Removing Asterisk infront Correct answers
+      ? Should we be doing this differently to be more efficient? 
+      */
+      this.question.options.forEach((element,index) => {
+        if (element.charAt(0) == '*' && this.question.rightAnswer[index]) {
+          // Remove * if it is in front and question is a correct answer
+          element = element.substring(1);
+        }
+        
+      });
+    },
     updateData() {
+      this.addAsterisk();
       this.$http.put("data/" + this.id + ".json", this.question).then(
         (response) => {
           console.log(response);
@@ -268,6 +296,7 @@ export default {
       })
       .then((data) => {
         this.question = data;
+        this.remAsterisk();
         console.log(data);
       });
   },
