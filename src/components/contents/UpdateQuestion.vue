@@ -158,7 +158,7 @@
               <div class="question-content">
                 <div>
                   <h3>{{question.title}}</h3>
-                  <vue-mathjax :formula="question.text"></vue-mathjax> <!-- vue-mathjax + :formula="variable" to display the mathjax.  -->
+                  <mathjax :formula="question.text"></mathjax> <!-- mathjax + :formula="variable" to display the mathjax.  -->
 
                   <div v-if="question.optionType == 'checkbox'">
                     <p v-for="(opt, index) in question.options" :key="index">
@@ -173,7 +173,7 @@
                     <p v-for="(opt, index) in question.options" :key="index">
                       <label for="opt">
                         <input type="radio" name="choice" value="opt">
-                         <vue-mathjax :formula="opt"></vue-mathjax>
+                         <mathjax :formula="opt"></mathjax>
                        <!-- {{opt}} -->
                       </label>
                     </p>
@@ -181,7 +181,7 @@
 
                   <div v-if="question.optionType == 'cloze'">
                     <p v-for="(opt, index) in question.options" :key="index">
-                         <vue-mathjax :formula="opt"></vue-mathjax>
+                         <mathjax :formula="opt"></mathjax>
                        <!-- {{opt}} -->                    
                        </p>
                   </div>
@@ -204,10 +204,12 @@
 
 <script>
 import VueTagsInput from "@johmun/vue-tags-input";
+import MathJax from "../MathJax";
 
 export default {
   components: {
     VueTagsInput,
+    'mathjax': MathJax
   },
   data() {
     return {

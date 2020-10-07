@@ -5,11 +5,9 @@ import { routes } from './routes';
 import VueResource from 'vue-resource';
 
 import store from './store/store';
-import VueMathjax from 'vue-mathjax'
 
 Vue.use(VueRouter);
 
-Vue.use(VueMathjax); // enable MaxJax in all of our pages
 
 Vue.config.productionTip = false
 
