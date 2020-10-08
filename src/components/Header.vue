@@ -9,6 +9,7 @@
 				<ul>
 					<router-link to="/" tag="li"><a>Home</a></router-link>
 					<router-link to="/about-us" tag="li"><a>About Us</a></router-link>
+					<router-link to="/how-to-use" tag="li"><a>How To Use</a></router-link>
 					<router-link to="/take-quiz" tag="li"><a>Take the Quiz</a></router-link>
 					<router-link to="/make-quiz" tag="li"><a>Question Maker</a></router-link>
 				</ul>

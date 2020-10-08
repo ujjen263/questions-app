@@ -3,11 +3,12 @@ import VueRouter from 'vue-router';
 import App from './App.vue'
 import { routes } from './routes';
 import VueResource from 'vue-resource';
-
+import Vuelidate from 'vuelidate'
 import store from './store/store';
 
 Vue.use(VueRouter);
 
+Vue.use(Vuelidate);
 
 Vue.config.productionTip = false
 

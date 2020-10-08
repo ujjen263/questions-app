@@ -142,7 +142,7 @@ export default {
         }
 
         .section-body {
-            margin-top: 60px;
+            margin-top: 40px;
         }
     }
 
