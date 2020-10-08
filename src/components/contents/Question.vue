@@ -79,7 +79,9 @@
 					q = this.posts[x];
 					if ((q.done == 0) && (q.locked == 0) && (q.show == 1)) {
 						speechText = "Title is " + q.title;
+						speechText += '.';
 						speechText += "Question is " + q.text;
+						speechText += '.';
 						speechText += "Options are ";
 
 						for (y in q.options) {
