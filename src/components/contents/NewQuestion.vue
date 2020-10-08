@@ -160,7 +160,7 @@ export default {
       */
       this.question.rightAnswer.forEach((element,index) => {
         if (element) {
-          this.question.options[index] = "*" + this.options[index];
+          this.question.options[index] = "*" + this.question.options[index];
         }
         
       });
