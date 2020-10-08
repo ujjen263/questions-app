@@ -59,14 +59,14 @@
                             <div class="full-width">
                 <vue-tags-input
                   v-model="tag"
-                  :tags="tags"
-                  @tags-changed="newTags => tags = newTags"
+                  :tags="question.tags"
+                  @tags-changed="newTags => question.tags = newTags"
                 />
               </div>
               <template v-for="(data,index) in question.options">
                 <div :key="index">
                   <label :for="data">
-                    <input style="display: inline-block; width: auto" type="checkbox" />
+                    <input style="display: inline-block; width: auto" type="checkbox" v-model="question.rightAnswer[index]" />
                     Answer {{index}}
                   </label>
                   <input
@@ -128,8 +128,7 @@ export default {
   },
   data() {
     return {
-      tag: "",
-      tags: [],
+      tag: "", //read in the tag from the textbox
       question: {
         title: "",
         skip: "",
@@ -139,6 +138,8 @@ export default {
         whyWrong: "",
         optionType: "",
         options: [],
+        rightAnswer: [],
+        tags: [], //array where each individual tag gets stored
       },
 		success: 0
     };
@@ -146,11 +147,26 @@ export default {
   methods: {
     addAnswer() {
       this.question.options.push("DefaultText");
+      this.question.rightAnswer.push(false);
     },
     removeAnswer(index) {
       this.question.options.splice(index, index);
     },
+    addAsterisk() {
+      /*
+      * Take correct answers and add an Asterisk infront of them 
+      * Needed to match SCALE schema.
+      ? Should we be doing this differently to be more efficient? 
+      */
+      this.question.rightAnswer.forEach((element,index) => {
+        if (element) {
+          this.question.options[index] = "*" + this.options[index];
+        }
+        
+      });
+    },
     submit() {
+      this.addAsterisk();
       this.$http.post("data.json", this.question).then(
         (response) => {
 			this.success = 1;

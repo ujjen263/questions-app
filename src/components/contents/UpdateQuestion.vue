@@ -68,8 +68,8 @@
               <div class="full-width">
                 <vue-tags-input
                   v-model="tag"
-                  :tags="tags"
-                  @tags-changed="(newTags) => (tags = newTags)"
+                  :tags="question.tags"
+                  @tags-changed="(newTags) => (question.tags = newTags)"
                 />
               </div>
               <template v-for="(data, index) in question.options">
@@ -78,6 +78,7 @@
                     <input
                       style="display: inline-block; width: auto"
                       type="checkbox"
+                      v-model="question.rightAnswer[index]"
                     />
                     Answer {{ index }}
                   </label>
@@ -85,7 +86,7 @@
                     type="text"
                     id="data"
                     class="form-control"
-                    v-model="question.options[index]"
+                    v-model.lazy="question.options[index]"
                   />
                 </div>
                 <div :key="index">
@@ -158,7 +159,7 @@
               <div class="question-content">
                 <div>
                   <h3>{{question.title}}</h3>
-                  <vue-mathjax :formula="question.text"></vue-mathjax> <!-- vue-mathjax + :formula="variable" to display the mathjax.  -->
+                  <mathjax :formula="question.text"></mathjax> <!-- mathjax + :formula="variable" to display the mathjax.  -->
 
                   <div v-if="question.optionType == 'checkbox'">
                     <p v-for="(opt, index) in question.options" :key="index">
@@ -173,7 +174,7 @@
                     <p v-for="(opt, index) in question.options" :key="index">
                       <label for="opt">
                         <input type="radio" name="choice" value="opt">
-                         <vue-mathjax :formula="opt"></vue-mathjax>
+                         <mathjax :formula="opt"></mathjax>
                        <!-- {{opt}} -->
                       </label>
                     </p>
@@ -181,7 +182,7 @@
 
                   <div v-if="question.optionType == 'cloze'">
                     <p v-for="(opt, index) in question.options" :key="index">
-                         <vue-mathjax :formula="opt"></vue-mathjax>
+                         <mathjax :formula="opt"></mathjax>
                        <!-- {{opt}} -->                    
                        </p>
                   </div>
@@ -203,22 +204,66 @@
 </template>
 
 <script>
+import VueTagsInput from "@johmun/vue-tags-input";
+import MathJax from "../MathJax";
+
 export default {
+  components: {
+    VueTagsInput,
+    'mathjax': MathJax
+  },
   data() {
     return {
       id: this.$route.params.id,
       question: [],
       update: 0,
       deleted: 0,
-      preview: 0
+      preview: 0.,
+      tag: "",
     };
   },
   methods: {
+        addAnswer() {
+      this.question.options.push("DefaultText");
+    },
+    removeAnswer(index) {
+      this.question.options.splice(index, index);
+    },
+    addAsterisk() {
+      /*
+      * Take correct answers and add an Asterisk infront of them 
+      * Needed to match SCALE schema.
+      ? Should we be doing this differently to be more efficient? 
+      */
+      this.question.rightAnswer.forEach((element,index) => {
+        if (element) {
+          this.question.options[index] = "*" + this.question.options[index]
+        }
+        
+      });
+    },
+    remAsterisk() {
+      /*
+      * Removing Asterisk infront Correct answers
+      ? Should we be doing this differently to be more efficient? 
+      */
+      this.question.options.forEach((element,index) => {
+        if (element.charAt(0) == '*' && this.question.rightAnswer[index]) {
+          // Remove * if it is in front and question is a correct answer
+          this.question.options[index] = element.substring(1);
+        }
+        
+      });
+    },
     updateData() {
+      //? Should we redirect to the questions list once they update? or do we want to keep them here?
+      //? If we want to keep them here then we need to run remAsterisk again on sucessful update.
+      this.addAsterisk(); // * add astrisk before posting the data to server for SCALE
       this.$http.put("data/" + this.id + ".json", this.question).then(
         (response) => {
           console.log(response);
           this.update = 1;
+          this.remAsterisk();//* Should remove the asterisk again after adding it to post, so user doesnt know it got added back. 
         },
         (error) => {
           console.log(error);
@@ -253,6 +298,7 @@ export default {
       })
       .then((data) => {
         this.question = data;
+        this.remAsterisk(); //! Remove astrisk when data is read in. 
         console.log(data);
       });
   },
