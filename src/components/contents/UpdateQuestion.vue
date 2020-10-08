@@ -57,13 +57,12 @@
               </div>
               <div class="full-width">
                 <label for="question">Question</label>
-                <textarea
-                  class="question-area"
+                <vue-editor
                   id="question"
-                  v-model.lazy="question.text"
-                  cols="30"
-                  rows="7"
-                ></textarea>
+                  v-model="question.text"
+                  :editorToolbar="customToolbar"
+
+                ></vue-editor>
               </div>
               <div class="full-width">
                 <vue-tags-input
@@ -205,11 +204,13 @@
 
 <script>
 import VueTagsInput from "@johmun/vue-tags-input";
+import { VueEditor } from "vue2-editor";
 import MathJax from "../MathJax";
 
 export default {
   components: {
     VueTagsInput,
+    VueEditor,
     'mathjax': MathJax
   },
   data() {
@@ -220,6 +221,14 @@ export default {
       deleted: 0,
       preview: 0.,
       tag: "",
+      customToolbar: [
+        ['bold', 'italic', 'underline', 'strike'],
+        ['link'],
+        ['blockquote'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        [{ 'script': 'sub'}, { 'script': 'super' }], 
+        ['align', { 'align': 'center' }, { 'align': 'right' }, { 'align': 'justify' }]
+    ]
     };
   },
   methods: {
