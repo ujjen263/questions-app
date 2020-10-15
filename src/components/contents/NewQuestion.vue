@@ -160,10 +160,10 @@
               </div>
             </div>
 
+            <a href="/make-quiz/view-question" class="btn opacity-hover">View questions</a>
             <div class="form-message" v-if="success != 0">
               <p v-if="success == 1" class="form-success">Question successfully added</p>
               <p v-if="success == -1" class="form-error">Error occured while adding</p>
-              <a href="/make-quiz/view-question" class="btn opacity-hover">View questions</a>
             </div>
           </div>
         </div>
@@ -270,11 +270,12 @@ export default {
 
 .form {
   padding-top: 0;
+  
+  .flex {
+    align-items: flex-start;
+  }
 }
 
-.flex {
-  align-items: flex-start;
-}
 
 .form-message {
 	width: 100%;

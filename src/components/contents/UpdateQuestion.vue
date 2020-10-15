@@ -194,11 +194,8 @@
                 Error occured while deleting
               </p>
 
-              <a href="/make-quiz/view-question" class="btn"
-                >View questions</a
-              >
             </div>
-
+            <a href="/make-quiz/view-question" class="btn">View questions</a>
             <!-- <hr v-if="preview == true"> -->
 
           </div>
